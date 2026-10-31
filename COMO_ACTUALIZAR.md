@@ -3,12 +3,17 @@
 El QR y el link no cambian nunca. Solo se publica un Release nuevo.
 
 1. En el `.csproj`, sube `ApplicationVersion` (siempre mayor que la anterior; hoy es 9, la próxima es 10).
-2. Genera el APK en Release firmado con el mismo keystore, `diabetes.keystore`.
+2. Genera el APK en Release firmado con el mismo keystore, `sodify-release.keystore` (alias `sodify`).
    Si cambia el keystore, Android no deja actualizar: habría que desinstalar la app primero.
 
    ```powershell
-   dotnet publish -f net10.0-android -c Release -p:AndroidPackageFormat=apk -p:AndroidKeyStore=true -p:AndroidSigningKeyStore=diabetes.keystore -p:AndroidSigningKeyAlias=TU_ALIAS -p:AndroidSigningKeyPass=TU_CLAVE -p:AndroidSigningStorePass=TU_CLAVE
+   $s = Read-Host 'Clave del keystore' -AsSecureString; $env:SODIFY_KEYSTORE_PASS = [Net.NetworkCredential]::new('', $s).Password; Remove-Variable s
+   dotnet clean .\LifeWithDiabetes.ayuda.csproj -f net10.0-android -c Release
+   dotnet publish .\LifeWithDiabetes.ayuda.csproj -f net10.0-android -c Release -p:AndroidPackageFormat=apk -p:AndroidKeyStore=true -p:AndroidSigningKeyStore=sodify-release.keystore -p:AndroidSigningKeyAlias=sodify -p:AndroidSigningKeyPass=env:SODIFY_KEYSTORE_PASS -p:AndroidSigningStorePass=env:SODIFY_KEYSTORE_PASS
+   Remove-Item Env:SODIFY_KEYSTORE_PASS
    ```
+
+   Antes de publicarlo, confirma la firma: `apksigner verify --print-certs` debe mostrar `CN=Sodify`, no `Android Debug`.
 
 3. Toma `bin\Release\net10.0-android\publish\com.vil.diabetes-Signed.apk` y renómbralo exactamente `Sodify.apk`.
 4. Entra a <https://github.com/Vilchezz12/sodify-descargas/releases> y toca **Draft a new release**.
