@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Privacidad de Sodify</title>
+  <meta name="description" content="Qué datos guarda Sodify, la app de pedidos de la Soda Liz, para qué los usa y con quién los comparte.">
+  <meta name="theme-color" content="#FAF4EC">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
+  <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --azul: #12348F;
+      --crema: #FAF4EC;
+      --blanco: #FFFFFF;
+      --tinta: #1B2440;
+      --tinta-suave: #5A6280;
+      --linea: #E9DFD0;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { -webkit-text-size-adjust: 100%; }
+
+    body {
+      margin: 0;
+      background: var(--crema);
+      color: var(--tinta);
+      font-family: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .pagina {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 28px 16px calc(40px + env(safe-area-inset-bottom));
+    }
+
+    .logo { display: block; height: 40px; width: auto; }
+
+    h1 {
+      margin: 20px 0 4px;
+      color: var(--azul);
+      font-size: clamp(1.75rem, 7vw, 2.25rem);
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    .fecha { margin: 0 0 24px; color: var(--tinta-suave); font-size: 0.9375rem; }
+
+    section {
+      background: var(--blanco);
+      border: 1px solid var(--linea);
+      border-radius: 18px;
+      padding: 18px 20px;
+      margin-bottom: 14px;
+    }
+
+    h2 { margin: 0 0 8px; color: var(--azul); font-size: 1.125rem; line-height: 1.3; }
+
+    p { margin: 0 0 10px; }
+    p:last-child, ul:last-child { margin-bottom: 0; }
+
+    ul { margin: 0 0 10px; padding-left: 20px; }
+    li { margin-bottom: 4px; }
+
+    a { color: var(--azul); font-weight: 500; }
+
+    .volver { display: inline-block; margin-top: 12px; }
+  </style>
+</head>
+<body>
+  <main class="pagina">
+    <a href="../"><img class="logo" src="../assets/logo.png" alt="Sodify"></a>
+
+    <h1>Política de privacidad</h1>
+    <p class="fecha">Última actualización: 4 de noviembre de 2026</p>
+
+    <section>
+      <h2>Qué es Sodify</h2>
+      <p>Sodify es la app de pedidos de la Soda Liz, la cafetería del CEDES Don Bosco. Sirve para ver el menú, hacer pedidos, pagarlos y retirarlos en la soda. La usan estudiantes, funcionarios y el personal de la soda.</p>
+    </section>
+
+    <section>
+      <h2>Qué datos guardamos</h2>
+      <ul>
+        <li><strong>Tu cuenta:</strong> nombre, apellidos, cédula, carnet y sección (si sos estudiante) y correo institucional. La contraseña no la guardamos nosotros: la maneja Firebase Authentication de forma cifrada.</li>
+        <li><strong>Tus pedidos:</strong> qué pediste, el total, el método de pago, la fecha, la hora de retiro y su estado. También tu carrito mientras armás un pedido.</li>
+        <li><strong>Comprobantes SINPE:</strong> si pagás por SINPE Móvil, la foto del comprobante que subís.</li>
+        <li><strong>Avisos:</strong> un identificador del teléfono y un código para enviarte notificaciones sobre tus pedidos.</li>
+        <li><strong>Seguridad:</strong> si activás la verificación en dos pasos, la clave de tu app autenticadora. También registramos si aceptaste los términos y las sanciones por pedidos falsos.</li>
+      </ul>
+      <p>No usamos tu ubicación, tus contactos ni publicidad. No te rastreamos fuera de la app.</p>
+    </section>
+
+    <section>
+      <h2>Para qué los usamos</h2>
+      <p>Solo para que la app funcione: identificarte al iniciar sesión, preparar y entregar tus pedidos, comprobar pagos, avisarte cuando cambia el estado de un pedido y evitar pedidos falsos. No vendemos tus datos ni los usamos para publicidad.</p>
+    </section>
+
+    <section>
+      <h2>Con quién se comparten</h2>
+      <ul>
+        <li><strong>Personal de la soda:</strong> ve tu nombre, tus pedidos y tus comprobantes para preparar y cobrar cada pedido.</li>
+        <li><strong>Firebase (Google):</strong> guarda tu cuenta y tus pedidos y envía las notificaciones.</li>
+        <li><strong>Cloudinary:</strong> guarda las fotos de comprobantes y de productos del menú.</li>
+        <li><strong>OpenAI:</strong> solo si lo aceptás dentro de la app. Procesa los mensajes que le escribís al Asistente y lee la foto del comprobante SINPE para ayudar al personal a revisarlo. No se le envían tu contraseña ni tu carnet. OpenAI no usa estos datos para entrenar sus modelos. Si no aceptás, el Asistente no se usa y el comprobante lo revisa una persona.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Cuánto tiempo los guardamos</h2>
+      <p>Tu cuenta se guarda mientras la uses. Los pedidos quedan en el registro de ventas de la soda. El carrito se borra al confirmar el pedido. Los avisos de un teléfono se borran al cerrar sesión en él.</p>
+    </section>
+
+    <section>
+      <h2>Eliminar tu cuenta</h2>
+      <p>Podés eliminar tu cuenta cuando quieras desde <strong>Perfil → Eliminar mi cuenta</strong>. Se borran tu cuenta, tus datos personales, tu carrito y los avisos de ese teléfono. Los pedidos que ya hiciste quedan en el registro de ventas de la soda.</p>
+      <p>Si tu cuenta tiene sanciones por pedidos falsos, la elimina la administración: escribinos al correo de abajo.</p>
+    </section>
+
+    <section>
+      <h2>Menores de edad</h2>
+      <p>Sodify es para la comunidad del colegio, así que algunos estudiantes son menores de edad. Solo pedimos los datos necesarios para pedir en la soda.</p>
+    </section>
+
+    <section>
+      <h2>Contacto</h2>
+      <p>Para dudas sobre tus datos o para pedir que los borremos, escribí a <a href="mailto:sodalizsodify@gmail.com">sodalizsodify@gmail.com</a> o pasá al mostrador de la soda.</p>
+      <p>Si cambiamos esta política, lo avisamos dentro de la app.</p>
+    </section>
+
+    <a class="volver" href="../">Volver a Sodify</a>
+  </main>
+</body>
+</html>
