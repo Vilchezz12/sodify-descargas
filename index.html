@@ -219,6 +219,75 @@
 
     .pasos a { color: var(--azul); font-weight: 500; }
 
+    /* Documento del proyecto */
+    .documento {
+      margin-top: 36px;
+      padding: 20px;
+      border-radius: 22px;
+      background: var(--blanco);
+      text-align: left;
+    }
+
+    .documento h2 {
+      margin: 0;
+      color: var(--azul);
+      font-size: 1.125rem;
+      font-weight: 600;
+      line-height: 1.35;
+      text-wrap: balance;
+    }
+
+    .doc-meta { margin: 4px 0 0; color: var(--tinta-suave); font-size: 0.875rem; }
+
+    .doc-abrir {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 44px;
+      margin-top: 14px;
+      padding: 0 18px;
+      border: 1.5px solid var(--azul);
+      border-radius: 999px;
+      color: var(--azul);
+      font-size: 0.9375rem;
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    .doc-abrir:hover { background: var(--crema); }
+    .doc-abrir:focus-visible { outline: 3px solid var(--dorado); outline-offset: 3px; }
+
+    .doc-abrir svg {
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .documento details { margin-top: 8px; }
+    .documento summary { padding: 0; }
+
+    .paginas { display: grid; gap: 12px; margin-top: 8px; }
+
+    details[open] .paginas { animation: abrir 0.22s ease; }
+
+    .paginas a { display: block; border-radius: 8px; }
+    .paginas a:focus-visible { outline: 3px solid var(--dorado); outline-offset: 3px; }
+
+    .paginas img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border: 1px solid var(--linea);
+      border-radius: 8px;
+      background: var(--blanco);
+    }
+
+    .doc-ayuda { margin: 0; color: var(--tinta-suave); font-size: 0.8125rem; }
+
     footer { margin-top: 32px; color: var(--tinta-suave); font-size: 0.8125rem; }
 
     /* Entrada: una sola secuencia al cargar */
@@ -235,7 +304,7 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .entra, details[open] .pasos { animation: none; }
+      .entra, details[open] .pasos, details[open] .paginas { animation: none; }
       .boton, summary svg { transition: none; }
     }
 
@@ -296,7 +365,24 @@
       </section>
     </div>
 
-    <footer class="entra" style="--i:5">CEDES Don Bosco · EXPOTEC 2026</footer>
+    <section class="documento entra" style="--i:5" aria-labelledby="doc-titulo">
+      <h2 id="doc-titulo">Sodify: Sistema de Pedidos Digitales para la Soda Liz del CEDES Don Bosco</h2>
+      <p class="doc-meta">Documento del proyecto en formato IEEE · 11&nbsp;páginas</p>
+      <a class="doc-abrir" href="documento/Sodify_IEEE.pdf" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/><path d="M12 12v6M9 15l3 3 3-3"/></svg>
+        Abrir PDF
+      </a>
+      <details>
+        <summary>Leer aquí
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <div class="paginas" id="paginas">
+          <p class="doc-ayuda">Toca una página para verla en grande.</p>
+        </div>
+      </details>
+    </section>
+
+    <footer class="entra" style="--i:6">CEDES Don Bosco · EXPOTEC 2026</footer>
   </main>
 
   <script>
@@ -314,6 +400,24 @@
         var iphone = document.getElementById('iphone');
         iphone.classList.add('es-tuyo');
         lista.insertBefore(iphone, lista.firstChild);
+      }
+
+      // Páginas del documento; con loading="lazy" dentro del desplegable cerrado no se descargan hasta abrirlo
+      var paginas = document.getElementById('paginas');
+      for (var n = 1; n <= 11; n++) {
+        var archivo = 'documento/p' + (n < 10 ? '0' : '') + n + '.webp';
+        var enlace = document.createElement('a');
+        enlace.href = archivo;
+        enlace.target = '_blank';
+        enlace.rel = 'noopener';
+        var img = document.createElement('img');
+        img.src = archivo;
+        img.alt = 'Página ' + n + ' del documento';
+        img.width = 1200;
+        img.height = 1553;
+        img.loading = 'lazy';
+        enlace.appendChild(img);
+        paginas.appendChild(enlace);
       }
 
       fetch('https://api.github.com/repos/Vilchezz12/sodify-descargas/releases/latest')
