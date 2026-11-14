@@ -308,6 +308,210 @@
       .boton, summary svg { transition: none; }
     }
 
+    /* Bienvenida de la EXPOTEC */
+    .bienvenida {
+      width: min(92vw, 380px);
+      max-width: none;
+      max-height: none;
+      margin: auto;
+      padding: 0;
+      border: 0;
+      border-radius: 28px;
+      background: var(--crema);
+      color: var(--tinta);
+      overflow: visible;
+      box-shadow: 0 24px 60px rgba(11, 31, 92, 0.35);
+    }
+
+    .bienvenida::backdrop {
+      background: rgba(11, 31, 92, 0.55);
+      -webkit-backdrop-filter: blur(6px);
+      backdrop-filter: blur(6px);
+    }
+
+    .bienvenida[open] { animation: aparecer 0.5s cubic-bezier(0.2, 0.9, 0.25, 1.15) both; }
+    .bienvenida[open]::backdrop { animation: fundido 0.35s ease both; }
+    .bienvenida.cerrando { animation: desaparecer 0.22s ease both; }
+    .bienvenida.cerrando::backdrop { animation: fundido 0.22s ease reverse both; }
+
+    .bv-cuerpo {
+      position: relative;
+      padding: 84px 24px 24px;
+      text-align: center;
+      overflow: hidden;
+      border-radius: 28px;
+    }
+
+    .bv-cuerpo::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      height: 104px;
+      background: var(--azul);
+    }
+
+    .bv-sody {
+      position: absolute;
+      top: -58px;
+      left: 50%;
+      width: 148px;
+      height: 148px;
+      margin-left: -74px;
+      z-index: 2;
+    }
+
+    .bv-sody::before {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border-radius: 50%;
+      background: var(--dorado);
+      border: 5px solid var(--crema);
+    }
+
+    .bv-sody img {
+      position: relative;
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      animation: saludo 1.2s 0.35s ease-in-out both;
+    }
+
+    .bv-contenido { position: relative; z-index: 1; padding-top: 42px; }
+
+    .bv-evento {
+      display: inline-block;
+      margin: 0;
+      padding: 3px 12px;
+      border-radius: 999px;
+      background: var(--blanco);
+      color: var(--azul);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+    }
+
+    .bienvenida h2 {
+      margin: 12px 0 0;
+      color: var(--azul);
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+
+    .bienvenida h2:focus { outline: none; }
+
+    .bv-texto { margin: 8px 0 0; color: var(--tinta-suave); font-size: 0.9875rem; }
+    .bv-texto strong { color: var(--tinta); font-weight: 600; }
+
+    .bv-lugar {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: 18px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: var(--blanco);
+      border: 1px solid var(--linea);
+      text-align: left;
+    }
+
+    .bv-pin {
+      flex: none;
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: var(--dorado);
+      color: var(--azul-noche);
+    }
+
+    .bv-pin svg {
+      width: 26px;
+      height: 26px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      animation: rebote 1.6s 0.9s ease-in-out infinite;
+    }
+
+    .bv-lugar-etiqueta { display: block; color: var(--tinta-suave); font-size: 0.8125rem; }
+    .bv-lugar-sitio { display: block; color: var(--azul); font-size: 1.125rem; font-weight: 700; line-height: 1.25; }
+    .bv-lugar-piso { display: block; color: var(--tinta); font-size: 0.875rem; font-weight: 500; }
+
+    .bv-boton {
+      display: block;
+      width: 100%;
+      min-height: 54px;
+      margin-top: 18px;
+      border: 0;
+      border-radius: 18px;
+      background: var(--azul);
+      color: var(--blanco);
+      font: inherit;
+      font-size: 1.0625rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.12s ease, filter 0.12s ease;
+    }
+
+    .bv-boton:hover { filter: brightness(1.12); }
+    .bv-boton:active { transform: scale(0.98); }
+    .bv-boton:focus-visible { outline: 3px solid var(--dorado); outline-offset: 3px; }
+
+    .confeti { position: absolute; inset: 0; pointer-events: none; overflow: hidden; border-radius: 28px; }
+
+    .confeti i {
+      position: absolute;
+      top: -14px;
+      width: 8px;
+      height: 14px;
+      border-radius: 2px;
+      opacity: 0;
+      animation: caer 2.4s ease-in both;
+    }
+
+    @keyframes aparecer {
+      from { opacity: 0; transform: translateY(40px) scale(0.92); }
+      to { opacity: 1; transform: none; }
+    }
+
+    @keyframes desaparecer {
+      to { opacity: 0; transform: translateY(16px) scale(0.97); }
+    }
+
+    @keyframes fundido { from { opacity: 0; } to { opacity: 1; } }
+
+    @keyframes saludo {
+      0% { transform: translateY(18px) scale(0.6); opacity: 0; }
+      45% { transform: translateY(-6px) scale(1.04) rotate(-6deg); opacity: 1; }
+      65% { transform: rotate(5deg); }
+      85% { transform: rotate(-3deg); }
+      100% { transform: none; opacity: 1; }
+    }
+
+    @keyframes rebote {
+      0%, 100% { transform: none; }
+      50% { transform: translateY(-3px); }
+    }
+
+    @keyframes caer {
+      0% { opacity: 0; transform: translateY(0) rotate(0); }
+      10% { opacity: 1; }
+      100% { opacity: 0; transform: translateY(420px) rotate(540deg); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .bienvenida[open], .bienvenida[open]::backdrop, .bienvenida.cerrando,
+      .bv-sody img, .bv-pin svg { animation: none; }
+      .confeti { display: none; }
+    }
+
     /* Computadora: ambos botones lado a lado, sin preferencia */
     @media (min-width: 760px) {
       .pagina { max-width: 760px; padding-top: 48px; }
@@ -385,6 +589,36 @@
     <footer class="entra" style="--i:6">CEDES Don Bosco · EXPOTEC 2026</footer>
   </main>
 
+  <dialog class="bienvenida" id="bienvenida" aria-labelledby="bv-titulo">
+    <div class="bv-cuerpo">
+      <div class="confeti" id="confeti" aria-hidden="true"></div>
+      <div class="bv-contenido">
+        <p class="bv-evento">EXPOTEC 2026</p>
+        <h2 id="bv-titulo" tabindex="-1" autofocus>¡Gracias por escanear!</h2>
+        <p class="bv-texto">Somos <strong>Sodify</strong>, la app de pedidos de la Soda Liz. Ven a conocernos y pruébala con nosotros.</p>
+
+        <div class="bv-lugar">
+          <span class="bv-pin" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+          </span>
+          <span>
+            <span class="bv-lugar-etiqueta">Estamos en</span>
+            <span class="bv-lugar-sitio">TICs · Aula 208</span>
+            <span class="bv-lugar-piso">Arriba, en el segundo piso</span>
+          </span>
+        </div>
+
+        <button class="bv-boton" type="button" id="bv-cerrar">Descargar Sodify</button>
+      </div>
+    </div>
+    <div class="bv-sody" aria-hidden="true">
+      <picture>
+        <source srcset="assets/sody.webp" type="image/webp">
+        <img src="assets/sody.png" alt="" width="148" height="148">
+      </picture>
+    </div>
+  </dialog>
+
   <script>
     (function () {
       var ua = navigator.userAgent;
@@ -400,6 +634,45 @@
         var iphone = document.getElementById('iphone');
         iphone.classList.add('es-tuyo');
         lista.insertBefore(iphone, lista.firstChild);
+      }
+
+      // Bienvenida de la EXPOTEC: sale al abrir la página y deja de salir sola al terminar la expo
+      var bienvenida = document.getElementById('bienvenida');
+      var finExpo = new Date('2026-11-16T00:00:00-06:00');
+      if (bienvenida && typeof bienvenida.showModal === 'function' && new Date() < finExpo) {
+        var colores = ['#F2C14E', '#12348F', '#FFFFFF', '#F2C14E', '#0B1F5C'];
+        var confeti = document.getElementById('confeti');
+        for (var c = 0; c < 18; c++) {
+          var pieza = document.createElement('i');
+          pieza.style.left = (4 + Math.random() * 92) + '%';
+          pieza.style.background = colores[c % colores.length];
+          pieza.style.animationDelay = (0.2 + Math.random() * 0.9) + 's';
+          pieza.style.transform = 'rotate(' + Math.round(Math.random() * 180) + 'deg)';
+          confeti.appendChild(pieza);
+        }
+
+        var cerrar = function () {
+          if (!bienvenida.open || bienvenida.classList.contains('cerrando')) return;
+          var reducir = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          if (reducir) { bienvenida.close(); return; }
+          bienvenida.classList.add('cerrando');
+          setTimeout(function () {
+            bienvenida.classList.remove('cerrando');
+            bienvenida.close();
+          }, 220);
+        };
+
+        document.getElementById('bv-cerrar').addEventListener('click', cerrar);
+        // Tocar fuera de la tarjeta también la cierra
+        bienvenida.addEventListener('click', function (e) {
+          if (e.target === bienvenida) cerrar();
+        });
+        bienvenida.addEventListener('cancel', function (e) {
+          e.preventDefault();
+          cerrar();
+        });
+
+        bienvenida.showModal();
       }
 
       // Páginas del documento; con loading="lazy" dentro del desplegable cerrado no se descargan hasta abrirlo
