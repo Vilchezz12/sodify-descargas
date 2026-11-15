@@ -26,6 +26,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preload" href="sody_saludo_web.webp" as="image" type="image/webp">
+
+  <!-- Vercel Web Analytics (se activa en el panel de Vercel del proyecto) -->
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
 
   <style>
     :root {
@@ -54,11 +61,54 @@
       -webkit-font-smoothing: antialiased;
     }
 
+    /* Franja de bienvenida */
+    .franja {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: calc(6px + env(safe-area-inset-top)) max(8px, env(safe-area-inset-right)) 6px max(16px, env(safe-area-inset-left));
+      background: var(--azul);
+      color: var(--blanco);
+      font-size: 0.8125rem;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    .franja[hidden] { display: none; }
+
+    .franja p { margin: 0; min-width: 0; }
+
+    .franja button {
+      flex: none;
+      display: grid;
+      place-items: center;
+      width: 36px;
+      height: 36px;
+      border: 0;
+      border-radius: 50%;
+      background: transparent;
+      color: inherit;
+      cursor: pointer;
+    }
+
+    .franja button:hover { background: rgba(255, 255, 255, 0.14); }
+    .franja button:focus-visible { outline: 3px solid var(--dorado); outline-offset: 1px; }
+
+    .franja svg {
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+    }
+
     .pagina {
       width: 100%;
       max-width: 460px;
       margin: 0 auto;
-      padding: 24px 16px calc(24px + env(safe-area-inset-bottom));
+      padding: 24px max(16px, env(safe-area-inset-right)) calc(24px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
       text-align: center;
     }
 
@@ -75,7 +125,14 @@
       background: var(--dorado);
     }
 
-    .sody { position: relative; display: block; width: 100%; height: 100%; object-fit: contain; }
+    .sody {
+      position: relative;
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      animation: flotar 3.2s ease-in-out infinite;
+    }
 
     h1 {
       margin: 0;
@@ -84,6 +141,15 @@
       font-weight: 700;
       letter-spacing: -0.02em;
       line-height: 1.15;
+    }
+
+    h2 {
+      margin: 0;
+      color: var(--azul);
+      font-size: 1.125rem;
+      font-weight: 600;
+      line-height: 1.35;
+      text-wrap: balance;
     }
 
     .subtitulo { margin: 4px 0 0; color: var(--tinta-suave); font-size: 1.0625rem; }
@@ -137,7 +203,8 @@
     .boton:active { transform: scale(0.98); }
 
     .boton:focus-visible,
-    summary:focus-visible {
+    summary:focus-visible,
+    .boton-compartir:focus-visible {
       outline: 3px solid var(--dorado);
       outline-offset: 3px;
     }
@@ -151,13 +218,90 @@
     .boton-titulo { display: block; font-size: 1.125rem; font-weight: 600; line-height: 1.25; }
     .boton-detalle { display: block; font-size: 0.8125rem; opacity: 0.82; }
 
-    /* ¿Cómo instalar? */
+    /* Compartir */
+    .boton-compartir {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 48px;
+      margin-top: 20px;
+      padding: 0 22px;
+      border: 1.5px solid var(--azul);
+      border-radius: 999px;
+      background: transparent;
+      color: var(--azul);
+      font: inherit;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.12s ease;
+    }
+
+    .boton-compartir:hover { background: var(--blanco); }
+
+    .icono-linea {
+      flex: none;
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* Tarjetas de contenido */
+    .tarjeta {
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: 22px;
+      background: var(--blanco);
+      text-align: left;
+    }
+
+    .contador { margin-top: 28px; text-align: center; }
+
+    .contador[hidden] { display: none; }
+
+    .contador-numero {
+      display: block;
+      color: var(--azul);
+      font-size: clamp(2.75rem, 14vw, 3.5rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .contador-texto { margin: 6px 0 0; color: var(--tinta-suave); font-size: 0.9375rem; }
+
+    .novedades-lista { display: grid; gap: 14px; margin: 14px 0 0; padding: 0; list-style: none; }
+
+    .novedades-lista li { display: flex; align-items: flex-start; gap: 12px; }
+
+    .novedad-icono {
+      flex: none;
+      display: grid;
+      place-items: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: var(--crema);
+      color: var(--azul);
+    }
+
+    .novedad-titulo { display: block; font-weight: 600; line-height: 1.35; }
+    .novedad-texto { display: block; color: var(--tinta-suave); font-size: 0.875rem; }
+
+    /* Desplegables (preguntas y documento) */
     details { margin-top: 6px; }
 
     summary {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 12px;
       min-height: 44px;
       padding: 0 12px;
       border-radius: 12px;
@@ -170,7 +314,8 @@
 
     summary::-webkit-details-marker { display: none; }
 
-    summary svg {
+    summary .flecha {
+      flex: none;
       width: 18px;
       height: 18px;
       fill: none;
@@ -181,7 +326,7 @@
       transition: transform 0.2s ease;
     }
 
-    details[open] summary svg { transform: rotate(180deg); }
+    details[open] > summary .flecha { transform: rotate(180deg); }
 
     .pasos {
       margin: 4px 0 0;
@@ -217,26 +362,18 @@
       text-align: center;
     }
 
-    .pasos a { color: var(--azul); font-weight: 500; }
+    .preguntas { margin-top: 8px; }
+
+    .preguntas details { margin: 0; border-top: 1px solid var(--linea); }
+    .preguntas details:first-child { border-top: 0; }
+
+    .preguntas summary { min-height: 52px; padding: 8px 0; color: var(--tinta); font-weight: 500; }
+
+    .respuesta { margin: 0 0 14px; color: var(--tinta-suave); font-size: 0.9375rem; }
+
+    details[open] .respuesta { animation: abrir 0.22s ease; }
 
     /* Documento del proyecto */
-    .documento {
-      margin-top: 36px;
-      padding: 20px;
-      border-radius: 22px;
-      background: var(--blanco);
-      text-align: left;
-    }
-
-    .documento h2 {
-      margin: 0;
-      color: var(--azul);
-      font-size: 1.125rem;
-      font-weight: 600;
-      line-height: 1.35;
-      text-wrap: balance;
-    }
-
     .doc-meta { margin: 4px 0 0; color: var(--tinta-suave); font-size: 0.875rem; }
 
     .doc-abrir {
@@ -256,16 +393,6 @@
 
     .doc-abrir:hover { background: var(--crema); }
     .doc-abrir:focus-visible { outline: 3px solid var(--dorado); outline-offset: 3px; }
-
-    .doc-abrir svg {
-      width: 18px;
-      height: 18px;
-      fill: none;
-      stroke: currentColor;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
 
     .documento details { margin-top: 8px; }
     .documento summary { padding: 0; }
@@ -303,9 +430,14 @@
       to { opacity: 1; transform: none; }
     }
 
+    @keyframes flotar {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
     @media (prefers-reduced-motion: reduce) {
-      .entra, details[open] .pasos, details[open] .paginas { animation: none; }
-      .boton, summary svg { transition: none; }
+      .entra, .sody, details[open] .pasos, details[open] .respuesta, details[open] .paginas { animation: none; }
+      .boton, summary .flecha, .boton-compartir { transition: none; }
     }
 
     /* Bienvenida de la EXPOTEC */
@@ -520,14 +652,18 @@
   </style>
 </head>
 <body>
+  <div class="franja" id="franja">
+    <p>¡Gracias por visitarnos en la EXPOTEC 2026!</p>
+    <button type="button" id="cerrar-franja" aria-label="Cerrar aviso">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+
   <main class="pagina">
     <img class="logo entra" style="--i:0" src="assets/logo.png" alt="Sodify" height="44">
 
     <div class="escena entra" style="--i:1">
-      <picture>
-        <source srcset="assets/sody.webp" type="image/webp">
-        <img class="sody" src="assets/sody.png" alt="Sody, la mascota de Sodify, con el pulgar arriba" width="208" height="208">
-      </picture>
+      <img class="sody" src="sody_saludo_web.webp" alt="Sody, la mascota de Sodify, saludando" width="208" height="208">
     </div>
 
     <h1 class="entra" style="--i:2">Descarga Sodify</h1>
@@ -537,7 +673,7 @@
     <div class="descargas entra" id="descargas" style="--i:4">
       <section class="plataforma" id="android" aria-label="Android">
         <p class="etiqueta">Tu dispositivo</p>
-        <a class="boton boton-android" href="https://github.com/Vilchezz12/sodify-descargas/releases/latest/download/Sodify.apk">
+        <a class="boton boton-android" id="descargar-android" href="https://github.com/Vilchezz12/sodify-descargas/releases/latest/download/Sodify.apk">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.6 9.48l1.84-3.18a.38.38 0 0 0-.66-.38l-1.86 3.22a11.43 11.43 0 0 0-9.84 0L5.22 5.92a.38.38 0 0 0-.66.38L6.4 9.48A10.78 10.78 0 0 0 1 18h22a10.78 10.78 0 0 0-5.4-8.52zM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/></svg>
           <span class="boton-texto">
             <span class="boton-titulo">Descargar para Android</span>
@@ -546,7 +682,7 @@
         </a>
         <details>
           <summary>¿Cómo instalar?
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            <svg class="flecha" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
           </summary>
           <ol class="pasos">
             <li>Descarga el APK con el botón de arriba.</li>
@@ -559,7 +695,7 @@
 
       <section class="plataforma" id="iphone" aria-label="iPhone">
         <p class="etiqueta">Tu dispositivo</p>
-        <a class="boton boton-iphone" href="https://apps.apple.com/app/id6823814984">
+        <a class="boton boton-iphone" id="descargar-iphone" href="https://apps.apple.com/app/id6823814984">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.05 12.54c-.03-2.6 2.12-3.85 2.22-3.91-1.21-1.77-3.09-2.01-3.76-2.04-1.6-.16-3.12.94-3.93.94-.81 0-2.06-.92-3.39-.89-1.74.03-3.35 1.01-4.25 2.57-1.81 3.14-.46 7.79 1.3 10.34.86 1.25 1.89 2.65 3.24 2.6 1.3-.05 1.79-.84 3.36-.84 1.57 0 2.01.84 3.39.81 1.4-.02 2.28-1.27 3.14-2.53.99-1.45 1.4-2.86 1.42-2.93-.03-.01-2.71-1.04-2.74-4.12zM14.47 4.9c.72-.87 1.2-2.08 1.07-3.29-1.03.04-2.29.69-3.03 1.56-.66.77-1.24 2-1.09 3.18 1.15.09 2.33-.58 3.05-1.45z"/></svg>
           <span class="boton-texto">
             <span class="boton-titulo">Descargar para iPhone</span>
@@ -569,16 +705,79 @@
       </section>
     </div>
 
-    <section class="documento entra" style="--i:5" aria-labelledby="doc-titulo">
+    <button class="boton-compartir entra" style="--i:5" type="button" id="compartir">
+      <svg class="icono-linea" viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+      Compartir Sodify
+    </button>
+
+    <section class="tarjeta contador" id="contador" aria-live="polite" hidden>
+      <span class="contador-numero" id="contador-numero">0</span>
+      <p class="contador-texto">pedidos realizados en la Soda Liz desde el lanzamiento</p>
+    </section>
+
+    <section class="tarjeta entra" style="--i:6" aria-labelledby="novedades-titulo">
+      <h2 id="novedades-titulo">Novedades · Versión 1.0.3</h2>
+      <ul class="novedades-lista">
+        <li>
+          <span class="novedad-icono">
+            <svg class="icono-linea" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg>
+          </span>
+          <span>
+            <span class="novedad-titulo">Sody ahora es más inteligente</span>
+          </span>
+        </li>
+        <li>
+          <span class="novedad-icono">
+            <svg class="icono-linea" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3M8.5 21h7"/></svg>
+          </span>
+          <span>
+            <span class="novedad-titulo">Pedí hablando</span>
+            <span class="novedad-texto">Tocá el micrófono y decí lo que querés.</span>
+          </span>
+        </li>
+      </ul>
+    </section>
+
+    <section class="tarjeta entra" style="--i:7" aria-labelledby="preguntas-titulo">
+      <h2 id="preguntas-titulo">Preguntas frecuentes</h2>
+      <div class="preguntas">
+        <details>
+          <summary>¿Qué es Sodify?<svg class="flecha" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+          <p class="respuesta">La app oficial de pedidos de la Soda Liz del CEDES Don Bosco.</p>
+        </details>
+        <details>
+          <summary>¿Cómo pago?<svg class="flecha" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+          <p class="respuesta">Con SINPE Móvil, efectivo o tarjeta.</p>
+        </details>
+        <details>
+          <summary>¿Cómo retiro mi pedido?<svg class="flecha" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+          <p class="respuesta">Mostrás el código QR en la soda.</p>
+        </details>
+        <details>
+          <summary>¿Es seguro?<svg class="flecha" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+          <p class="respuesta">Las contraseñas están cifradas y solo el personal de la soda ve los pedidos.</p>
+        </details>
+        <details>
+          <summary>¿Por qué en Android se descarga desde aquí y no desde Play Store?<svg class="flecha" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+          <p class="respuesta">Por ahora se distribuye desde esta página; pronto estará en Play Store.</p>
+        </details>
+        <details>
+          <summary>¿Puedo cancelar un pedido?<svg class="flecha" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+          <p class="respuesta">Sí, durante los primeros 5 minutos.</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="tarjeta documento entra" style="--i:8" aria-labelledby="doc-titulo">
       <h2 id="doc-titulo">Sodify: Sistema de Pedidos Digitales para la Soda Liz del CEDES Don Bosco</h2>
       <p class="doc-meta">Documento del proyecto en formato IEEE · 11&nbsp;páginas</p>
       <a class="doc-abrir" href="documento/Sodify_IEEE.pdf" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/><path d="M12 12v6M9 15l3 3 3-3"/></svg>
+        <svg class="icono-linea" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/><path d="M12 12v6M9 15l3 3 3-3"/></svg>
         Abrir PDF
       </a>
       <details>
         <summary>Leer aquí
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          <svg class="flecha" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
         </summary>
         <div class="paginas" id="paginas">
           <p class="doc-ayuda">Toca una página para verla en grande.</p>
@@ -586,7 +785,7 @@
       </details>
     </section>
 
-    <footer class="entra" style="--i:6">CEDES Don Bosco · EXPOTEC 2026</footer>
+    <footer class="entra" style="--i:9">CEDES Don Bosco · EXPOTEC 2026</footer>
   </main>
 
   <dialog class="bienvenida" id="bienvenida" aria-labelledby="bv-titulo">
@@ -621,6 +820,18 @@
 
   <script>
     (function () {
+      function registrar(nombre) {
+        try { window.va('event', { name: nombre }); } catch (e) { /* sin analytics la página sigue igual */ }
+      }
+
+      // Franja de bienvenida: cerrada se recuerda en este navegador
+      var franja = document.getElementById('franja');
+      try { if (localStorage.getItem('franjaExpotecCerrada') === '1') franja.hidden = true; } catch (e) {}
+      document.getElementById('cerrar-franja').addEventListener('click', function () {
+        franja.hidden = true;
+        try { localStorage.setItem('franjaExpotecCerrada', '1'); } catch (e) {}
+      });
+
       var ua = navigator.userAgent;
       var esAndroid = /Android/i.test(ua);
       // iPadOS se presenta como Mac, pero con pantalla táctil
@@ -674,6 +885,65 @@
 
         bienvenida.showModal();
       }
+
+      document.getElementById('descargar-android').addEventListener('click', function () { registrar('Descargar Android'); });
+      document.getElementById('descargar-iphone').addEventListener('click', function () { registrar('Descargar iPhone'); });
+
+      // Compartir: menú nativo del teléfono o, si no existe, WhatsApp
+      var textoCompartir = 'Descargá Sodify, la app de pedidos de la Soda Liz: https://sodify-app.vercel.app';
+      document.getElementById('compartir').addEventListener('click', function () {
+        registrar('Compartir');
+        if (navigator.share) {
+          navigator.share({ title: 'Sodify', text: textoCompartir }).catch(function () {});
+        } else {
+          window.open('https://wa.me/?text=' + encodeURIComponent(textoCompartir), '_blank', 'noopener');
+        }
+      });
+
+      // Contador: un solo número público, leído una vez y luego cada minuto.
+      // Sin conexión en vivo para no gastar las 100 conexiones del plan gratis de Firebase.
+      var contador = document.getElementById('contador');
+      var numero = document.getElementById('contador-numero');
+      var quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var mostrado = 0;
+
+      function animarHasta(total) {
+        var desde = mostrado;
+        mostrado = total;
+        if (quieto || desde === total) {
+          numero.textContent = total.toLocaleString('es-CR');
+          return;
+        }
+        var inicio = null;
+        var duracion = desde === 0 ? 1600 : 600;
+        function paso(t) {
+          if (inicio === null) inicio = t;
+          var x = Math.min(1, (t - inicio) / duracion);
+          var suave = 1 - Math.pow(1 - x, 3);
+          numero.textContent = Math.round(desde + (total - desde) * suave).toLocaleString('es-CR');
+          if (x < 1) requestAnimationFrame(paso);
+        }
+        requestAnimationFrame(paso);
+      }
+
+      function leerContador() {
+        fetch('https://sodify-cafeteria-default-rtdb.firebaseio.com/EstadisticasPublicas/totalPedidos.json')
+          .then(function (r) {
+            if (!r.ok) throw new Error('Firebase respondió ' + r.status);
+            return r.json();
+          })
+          .then(function (total) {
+            if (typeof total !== 'number' || total <= 0) return;
+            contador.hidden = false;
+            animarHasta(Math.floor(total));
+          })
+          .catch(function () {
+            // Sin el número la tarjeta queda oculta
+          });
+      }
+
+      leerContador();
+      setInterval(function () { if (!document.hidden) leerContador(); }, 60000);
 
       // Páginas del documento; con loading="lazy" dentro del desplegable cerrado no se descargan hasta abrirlo
       var paginas = document.getElementById('paginas');
