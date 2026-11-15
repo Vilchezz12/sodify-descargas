@@ -260,22 +260,6 @@
       text-align: left;
     }
 
-    .contador { margin-top: 28px; text-align: center; }
-
-    .contador[hidden] { display: none; }
-
-    .contador-numero {
-      display: block;
-      color: var(--azul);
-      font-size: clamp(2.75rem, 14vw, 3.5rem);
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      line-height: 1.05;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .contador-texto { margin: 6px 0 0; color: var(--tinta-suave); font-size: 0.9375rem; }
-
     .novedades-lista { display: grid; gap: 14px; margin: 14px 0 0; padding: 0; list-style: none; }
 
     .novedades-lista li { display: flex; align-items: flex-start; gap: 12px; }
@@ -710,11 +694,6 @@
       Compartir Sodify
     </button>
 
-    <section class="tarjeta contador" id="contador" aria-live="polite" hidden>
-      <span class="contador-numero" id="contador-numero">0</span>
-      <p class="contador-texto">pedidos realizados en la Soda Liz desde el lanzamiento</p>
-    </section>
-
     <section class="tarjeta entra" style="--i:6" aria-labelledby="novedades-titulo">
       <h2 id="novedades-titulo">Novedades · Versión 1.0.3</h2>
       <ul class="novedades-lista">
@@ -899,51 +878,6 @@
           window.open('https://wa.me/?text=' + encodeURIComponent(textoCompartir), '_blank', 'noopener');
         }
       });
-
-      // Contador: un solo número público, leído una vez y luego cada minuto.
-      // Sin conexión en vivo para no gastar las 100 conexiones del plan gratis de Firebase.
-      var contador = document.getElementById('contador');
-      var numero = document.getElementById('contador-numero');
-      var quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      var mostrado = 0;
-
-      function animarHasta(total) {
-        var desde = mostrado;
-        mostrado = total;
-        if (quieto || desde === total) {
-          numero.textContent = total.toLocaleString('es-CR');
-          return;
-        }
-        var inicio = null;
-        var duracion = desde === 0 ? 1600 : 600;
-        function paso(t) {
-          if (inicio === null) inicio = t;
-          var x = Math.min(1, (t - inicio) / duracion);
-          var suave = 1 - Math.pow(1 - x, 3);
-          numero.textContent = Math.round(desde + (total - desde) * suave).toLocaleString('es-CR');
-          if (x < 1) requestAnimationFrame(paso);
-        }
-        requestAnimationFrame(paso);
-      }
-
-      function leerContador() {
-        fetch('https://sodify-cafeteria-default-rtdb.firebaseio.com/EstadisticasPublicas/totalPedidos.json')
-          .then(function (r) {
-            if (!r.ok) throw new Error('Firebase respondió ' + r.status);
-            return r.json();
-          })
-          .then(function (total) {
-            if (typeof total !== 'number' || total <= 0) return;
-            contador.hidden = false;
-            animarHasta(Math.floor(total));
-          })
-          .catch(function () {
-            // Sin el número la tarjeta queda oculta
-          });
-      }
-
-      leerContador();
-      setInterval(function () { if (!document.hidden) leerContador(); }, 60000);
 
       // Páginas del documento; con loading="lazy" dentro del desplegable cerrado no se descargan hasta abrirlo
       var paginas = document.getElementById('paginas');
